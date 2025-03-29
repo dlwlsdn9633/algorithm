@@ -1,35 +1,37 @@
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    private static int n;
-    private static ArrayList<Integer> v = new ArrayList<>();
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        n = scanner.nextInt();
-        scanner.nextLine();
-        String[] numbers = scanner.nextLine().split(" ");
-        for (int i = 0; i < numbers.length; ++i) {
-            v.add(Integer.parseInt(numbers[i]));
-        }
-        System.out.println(go(0, 0));
-    }
-
-    private static int go(int idx, int sum) {
-        if (idx == n) {
-            return check(sum);
-        }
-        return go(idx + 1, sum + v.get(idx)) + go(idx + 1, sum); // v.get(idx)를 선택한 경우 + v.get(idx)를 선택하지 않는 경우
-    }
-    private static int check(int n) {
-        if (n <= 1) return 0;
-        if (n == 2) return 1;
-        if (n % 2 == 0) return 0;
-        for (int i = 2; i * i <= n; ++i) {
-            if (n % i == 0) {
-                return 0;
+    private static int N;
+    private static PriorityQueue<Double> q = new PriorityQueue<>(Collections.reverseOrder()); // 가장 작은 것부터 하나씩 빼낸다
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        N = Integer.parseInt(br.readLine());
+        for (int n = 0; n < N; ++n) {
+            Double score = Double.parseDouble(br.readLine());
+            if (q.size() == 5) {
+                double peek = q.peek();
+                if (q.peek() > score) {
+                    q.poll();
+                    q.offer(score);
+                }
+            } else {
+                q.offer(score);
             }
         }
-        return 1;
+
+        ArrayList<Double> scores = new ArrayList<>();
+        while (q.isEmpty() == false) {
+            scores.add(q.poll());
+        }
+        List<Double> reversed = scores.reversed();
+        for (Double score : reversed) {
+            bw.write(String.valueOf(score));
+            bw.write("\n");
+        }
+
+        bw.flush();
+        bw.close();
     }
 }
