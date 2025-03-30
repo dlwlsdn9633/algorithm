@@ -2,36 +2,42 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    private static int[] arr;
     private static int N;
-    private static PriorityQueue<Double> q = new PriorityQueue<>(Collections.reverseOrder()); // 가장 작은 것부터 하나씩 빼낸다
+    private static int lisLen;
+    private static int[] lis;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
         N = Integer.parseInt(br.readLine());
-        for (int n = 0; n < N; ++n) {
-            Double score = Double.parseDouble(br.readLine());
-            if (q.size() == 5) {
-                double peek = q.peek();
-                if (q.peek() > score) {
-                    q.poll();
-                    q.offer(score);
-                }
-            } else {
-                q.offer(score);
+        lis = new int[N];
+        arr = new int[N];
+        String[] conds = br.readLine().split(" ");
+        for (int i = 0; i < conds.length; ++i) {
+            int num = Integer.parseInt(conds[i]);
+            int lowerIdx = lowerBound(0, lisLen, num);
+            if (lowerIdx >= lisLen) {
+                ++lisLen;
             }
+            lis[lowerIdx] = num;
         }
-
-        ArrayList<Double> scores = new ArrayList<>();
-        while (q.isEmpty() == false) {
-            scores.add(q.poll());
-        }
-        List<Double> reversed = scores.reversed();
-        for (Double score : reversed) {
-            bw.write(String.valueOf(score));
-            bw.write("\n");
-        }
-
+        bw.write(String.valueOf(lisLen));
         bw.flush();
         bw.close();
+    }
+
+    private static int lowerBound(int left, int right, int target) {
+        int l = left;
+        int r = right;
+        while (l < r) {
+            int mid = (l + r) / 2;
+            if (lis[mid] < target) {
+                l = mid + 1;
+            } else {
+                r = mid;
+            }
+        }
+        return l;
     }
 }
