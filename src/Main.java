@@ -2,42 +2,57 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    private static int[] arr;
-    private static int N;
-    private static int lisLen;
-    private static int[] lis;
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        Scanner scanner = new Scanner(System.in);
 
-        N = Integer.parseInt(br.readLine());
-        lis = new int[N];
-        arr = new int[N];
-        String[] conds = br.readLine().split(" ");
-        for (int i = 0; i < conds.length; ++i) {
-            int num = Integer.parseInt(conds[i]);
-            int lowerIdx = lowerBound(0, lisLen, num);
-            if (lowerIdx >= lisLen) {
-                ++lisLen;
+        // 학점 * 과목평점
+        double aa = 0;
+        // 총학점
+        double point = 0;
+
+        for (int i = 0; i < 20; i++) {
+            // 과목
+            String title = scanner.next();
+            // 학점
+            double a = scanner.nextDouble();
+            // 평점
+            String b = scanner.next();
+
+            if (b.equals("A+")){
+                aa += a * 4.5;
+                point += a;
+            } else if (b.equals("A0")) {
+                aa += a * 4.0;
+                point += a;
+            }else if (b.equals("B+")) {
+                aa += a * 3.5;
+                point += a;
+            }else if (b.equals("B0")) {
+                aa += a * 3.0;
+                point += a;
+            }else if (b.equals("C+")) {
+                aa += a * 2.5;
+                point += a;
+            }else if (b.equals("C0")) {
+                aa += a * 2.0;
+                point += a;
+            }else if (b.equals("D+")) {
+                aa += a * 1.5;
+                point += a;
+            }else if (b.equals("D0")) {
+                aa += a * 1.0;
+                point += a;
+            }else if (b.equals("F")) {
+                aa += a * 0.0;
+                point += a;
             }
-            lis[lowerIdx] = num;
+
+            System.out.println(point);
         }
-        bw.write(String.valueOf(lisLen));
-        bw.flush();
-        bw.close();
+
+
+
+        System.out.printf("%.6f", aa / point);
     }
 
-    private static int lowerBound(int left, int right, int target) {
-        int l = left;
-        int r = right;
-        while (l < r) {
-            int mid = (l + r) / 2;
-            if (lis[mid] < target) {
-                l = mid + 1;
-            } else {
-                r = mid;
-            }
-        }
-        return l;
-    }
 }
