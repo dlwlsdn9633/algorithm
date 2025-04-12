@@ -1,10 +1,9 @@
 package b_1285;
 
 import java.io.*;
-
-public class b_1285_a4 {
+public class b_1285_a5 {
     private static int N;
-    private static int map[];
+    private static int[] map;
     private static int ret = Integer.MAX_VALUE;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -17,8 +16,8 @@ public class b_1285_a4 {
     }
     private static void dfs(int row) {
         if (row >= N) {
-            int sumMinTNumber = 0;
-            for (int colBit = 1; colBit <= (1 << N - 1); colBit *= 2) {
+            int sumTNumber = 0;
+            for (int colBit = 1; colBit <= (1 << (N - 1)); colBit *= 2) {
                 int TNumber = 0;
                 for (int rowIdx = 0; rowIdx < N; ++rowIdx) {
                     if ((map[rowIdx] & colBit) != 0) {
@@ -26,9 +25,9 @@ public class b_1285_a4 {
                     }
                 }
                 int minTNumber = Math.min(TNumber, N - TNumber);
-                sumMinTNumber += minTNumber;
+                sumTNumber += minTNumber;
             }
-            ret = Math.min(sumMinTNumber, ret);
+            ret = Math.min(sumTNumber, ret);
             return;
         }
         dfs(row + 1);
@@ -38,12 +37,12 @@ public class b_1285_a4 {
     private static void setMap(BufferedReader br) throws IOException {
         N = Integer.parseInt(br.readLine());
         map = new int[N];
-        for (int i = 0; i < N; ++i) {
+        for (int n = 0; n < N; ++n) {
             int value = 1;
-            String rowCoins = br.readLine();
-            for (char coin : rowCoins.toCharArray()) {
-                if (coin == 'T') {
-                    map[i] |= value;
+            String coinRow = br.readLine();
+            for (int coinIdx = 0; coinIdx < coinRow.length(); ++coinIdx) {
+                if (coinRow.charAt(coinIdx) == 'T') {
+                    map[n] |= value;
                 }
                 value *= 2;
             }
