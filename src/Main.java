@@ -1,29 +1,27 @@
-import java.io.*;
-import java.util.*;
 
 public class Main {
-    private static int[] arr = new int[3];
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        dfs(0);
+    public static void main(String[] args) {
+        Parent parent = new Child(10);
+        System.out.println(parent.getX());
 
-        bw.flush();
-        bw.close();
     }
-    private static void dfs(int idx) {
-        if (idx == 3) {
-            print();
-            return;
+    static class Parent {
+        int x, y;
+        public Parent(int x, int y) {
+            this.x = x;
+            this.y = y;
         }
-        dfs(idx + 1);
-        arr[idx] = ~arr[idx];
-        dfs(idx + 1);
+        int getX() {
+            return x * y;
+        }
     }
-    private static void print() {
-        for (int num : arr) {
-            System.out.print(num + "\t");
+    static class Child extends Parent {
+        int x;
+        public Child(int x) {
+            super(x + 1, x);
         }
-        System.out.println();
+        int getX(int n) {
+            return super.getX() + n;
+        }
     }
 }
