@@ -1,27 +1,16 @@
 
 public class Main {
     public static void main(String[] args) {
-        Parent parent = new Child(10);
-        System.out.println(parent.getX());
+        int[] data = { 3, 5, 8, 12, 17 };
+        System.out.println(func(data, 0, data.length - 1));
+    }
 
-    }
-    static class Parent {
-        int x, y;
-        public Parent(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-        int getX() {
-            return x * y;
-        }
-    }
-    static class Child extends Parent {
-        int x;
-        public Child(int x) {
-            super(x + 1, x);
-        }
-        int getX(int n) {
-            return super.getX() + n;
-        }
+    static int func(int[] a, int st, int end) {
+        if (st >= end) return 0;
+        int mid = (st + end) / 2;
+        System.out.println("mid: " + mid);
+        int ret = a[mid] + Math.max(func(a, st, mid), func(a, mid + 1, end));
+        System.out.println(ret);
+        return ret;
     }
 }
